@@ -1,29 +1,31 @@
-﻿using System;
+using System;
 using Npgsql;
 
-namespace Npgsql
+class Program
 {
-    class Program
+    static void Main(string[] agrs)
     {
-        static void Main(string[] args)
+        // S p e c i f y c onnec t i on o p t i o n s and open an c onnec t i on
+        NpgsqlConnection conn = new NpgsqlConnection(" Server = 127.0.0.1 ; UserId = postgres; Password = pwd; Database = rental;");
+
+        conn.Open();
+        // De f ine a quer y
+        NpgsqlCommand cmd = new NpgsqlCommand("SELECT title FROM movies ", conn);
+
+        // Execu te a quer y
+        NpgsqlDataReader dataReader = cmd.ExecuteReader();
+        // Read a l l rows and o u t p u t t h e f i r s t column in each row
+        while (dataReader.Read())
+
+            // Execu te a quer y NpgsqlDataReader dataReader = cmd.ExecuteReader();
+            // Read a l l rows and o u t p u t t h e f i r s t column in each row while (dataReader.Read ( ) )
+            Console.Write($"title: { dataReader[0] } \n");
+        // Cl o se c onnec t i on
+        dataReader.Close();
+        NpgsqlCommand cmd2 = new NpgsqlCommand("Select title, year FROM movie", conn);
+        using(NpgsqlDataReader dataReader2= cmd2.ExecuteReader())
         {
-            // Specify connection options and open an connection
-            NpgsqlConnection conn = new NpgsqlConnection (" Server= 127.0.0.1; User Id = postgres;Password = pwd; Database=rental;");
-            conn.Open();
 
-            // Define a query
-            NpgsqlCommand cmd = new NpgsqlCommand("SELECT title FROM movies ", conn);
-
-            // Execute a query
-            NpgsqlDataReader dataReader = cmd.ExecuteReader();
-
-            // Read all rows and output the first column in each row
-            while (dataReader.Read())
-                Console.Write($" title: { dataReader[0] } \n");
-
-            // Close connection
-            conn.Close();
         }
     }
 }
-             
